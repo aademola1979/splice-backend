@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pydantic
+pydantic[email]
+python-dotenv
+jupyter
+pandas
+python-decouple
+jinja2
+requests
+
+
