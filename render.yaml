@@ -1,9 +1,9 @@
 services:
   - type: web
     name: app
-    runtime: docker
-    dockerContext: .
-    dockerfilePath: Dockerfile
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 80
     repo: https://github.com/aademola1979/splice-backend.git
     region: oregon
     healthCheckPath: /
