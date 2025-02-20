@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException, Response, Cookie
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from legalese.messages.routers import legalese_message_router
 
 
 app = FastAPI()

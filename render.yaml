@@ -8,3 +8,4 @@ services:
     region: oregon
     healthCheckPath: /
     plan: free
+    
