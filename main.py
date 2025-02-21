@@ -9,8 +9,8 @@ app = FastAPI()
 
 origins = [
     "https://splice-seven.vercel.app",
-    "http://localhost:3000",
-    "http://localhost:5173"
+    "http://localhost:3000"
+    
 ]
 
 app.add_middleware(
@@ -23,4 +23,18 @@ app.add_middleware(
 
 @app.get("/")
 async def greet():
-    return {"Greet": "Demola won!"}
+    return {"Greet": "Demola won! New"}
+
+@app.get("/profile")
+async def go_app():
+    return {"profile":{
+        "first_name":"Ademola",
+        "middle_name":"Oriyomi",
+        "last_name":"Adeniji",
+        "bio_data":{
+            "age":34,
+            "height":4.5,
+            "weight": 45
+        }
+
+    }}
