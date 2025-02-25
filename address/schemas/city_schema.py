@@ -6,7 +6,6 @@ class CitySchema(BaseModel):
     name: str
     postal_code: str
     is_capital: bool
-    lga_id: str
+    local_overnment_area_id: str
     created_at: date
     updated_at: date
-    deleted_at: date

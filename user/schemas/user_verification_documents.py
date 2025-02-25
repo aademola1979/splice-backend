@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date
+from typing import List
 
 class IDImageSchema(BaseModel):
     id: str
@@ -9,6 +9,7 @@ class IDImageSchema(BaseModel):
 class UserVerificationDocumentsSchema(BaseModel):
     id: str
     user_id: str
-    NIN: str
-    id_image: IDImageSchema
+    national_identificcation_number: str
+    id_image: List[IDImageSchema]
     background_check_consent: bool
+

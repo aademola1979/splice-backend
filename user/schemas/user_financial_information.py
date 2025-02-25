@@ -3,6 +3,8 @@ from datetime import date
 
 class UserFinancialInformation(BaseModel):
     user_id: str
-    income_range: int
-    annual_budget_range: int
+    annual_rent_budget_range: int
+    created_at: date
+    updated_at: date
+    deleted_at: date
 

@@ -1,11 +1,12 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from datetime import date
 
 class OnboardingState(BaseModel):
     id: str
+    user_id: str
     created_at: date
     updated_at: date
     current_step_id: str
-    is_complete: bool
-    user_id: str
+    is_complete: bool = False
+
 
