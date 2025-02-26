@@ -1,5 +1,5 @@
 from typing import List
-from sqlalchemy.orm import Session
+from sqlalchemy import Session
 from fastapi import APIRouter, Depends, HTTPException, status
 from schemas.todo import TodoRequest, TodoResponse
 import crud

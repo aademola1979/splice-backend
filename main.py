@@ -9,7 +9,7 @@ import os
 from typing import Union
 from functools import lru_cache
 import config
-from todo_app.routers import todo as todo_router
+
 
 
 
