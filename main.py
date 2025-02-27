@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 import os
 from typing import Union
 from functools import lru_cache
-import config
 
+import config
 
 
 
