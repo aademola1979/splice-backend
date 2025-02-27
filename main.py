@@ -3,7 +3,6 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as starletteHHTPException
-from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 import os
 from typing import Union
@@ -15,22 +14,10 @@ import config
 
 load_dotenv()
 secret = os.environ['DATABASE_NAME']
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    print('Server is starting')
-    yield
-    print('Server is shutting down')
 
 
 
-app = FastAPI(
-    title= 'Splice7 backend',
-    version= '0.1.0',
-    description= 'Backend service for splice7',
-    lifespan=lifespan
-)
-
-app.include_router(todo_router.router)
+app = FastAPI()
 
 
 
@@ -66,7 +53,7 @@ def read_setting(setting: config.Settings = Depends(get_settings)):
 
 @app.get("/")
 async def greet():
-    return {"Greet": f"{secret}"}
+    return {"Greet": f"Hi"}
 
 @app.get("/profile")
 async def go_app():
