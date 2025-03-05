@@ -1,30 +1,44 @@
-from fastapi import FastAPI, HTTPException, Response, Cookie, Depends
-from pydantic import BaseModel
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as starletteHHTPException
-from dotenv import load_dotenv
-import os
-from typing import Union
 from functools import lru_cache
-
+from contextlib import asynccontextmanager
 import config
+from databse.database import init_db
+from user.routers.routers import user_router
+from address.routers.zone_router import zone_router
+from address.routers.state_router import state_router
 
 
 
-load_dotenv()
-secret = os.environ['DATABASE_NAME']
+@asynccontextmanager
+async def lifespan(app:FastAPI):
+    print('App starting up')
+    await init_db()
+
+    yield
+    print('App shutting down')
 
 
 
-app = FastAPI()
+app = FastAPI(
+    title='Splice Seven',
+    version='0.1.0',
+    lifespan=lifespan,
+)
+
+#Routers
+app.include_router( user_router)
+app.include_router(zone_router)
+app.include_router(state_router)
+
 
 
 
 origins = [
     "https://splice-seven.vercel.app",
-    "http://localhost:3000"
-    
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
@@ -46,29 +60,7 @@ def get_settings():
 
 
 
-@app.get('/con')
-def read_setting(setting: config.Settings = Depends(get_settings)):
-    print(setting.app_name)
-    return "Still learning"
-
 @app.get("/")
 async def greet():
     return {"Greet": f"Hi"}
 
-@app.get("/profile")
-async def go_app():
-    return {"profile":{
-        "first_name":"Ademola",
-        "middle_name":"Oriyomi",
-        "last_name":"Adeniji",
-        "bio_data":{
-            "age":34,
-            "height":4.5,
-            "weight": 45
-        }
-
-    }}
-
-@app.get('/items/{item_id}')
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}

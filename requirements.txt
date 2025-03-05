@@ -12,6 +12,8 @@ jinja2
 requests
 sqlmodel
 alembic 
+psycopg
 pydantic-settings
+
 
 
