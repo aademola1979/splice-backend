@@ -5,7 +5,7 @@ from uuid import UUID, uuid4
 from datetime import datetime
 
 class UserLifestylePreferencesModel(SQLModel, table=True):
-    __tablename__ = "lifestyle_preferences"
+    __tablename__ = "user_lifestyle_preferences"
     __table_args__ = {"extend_existing": True}
 
 
@@ -17,7 +17,7 @@ class UserLifestylePreferencesModel(SQLModel, table=True):
             nullable=False, 
             unique=True,
             default=uuid4
-        ),  
+        )  
     )
 
     cooking_habits: str = Field(sa_column=Column('cooking_habits', pg.VARCHAR(225), nullable=True))
@@ -33,7 +33,7 @@ class UserLifestylePreferencesModel(SQLModel, table=True):
     age_range_of_preferred_co_renters: str = Field(sa_column=Column('age_range_of_preferred_co_renters', pg.VARCHAR(225), nullable=False))
     utility_sharing_preferences: str = Field(sa_column=Column('utility_sharing_preference', pg.VARCHAR(225), nullable=False))
     preferred_gender_of_co_renters: str = Field(sa_column=Column('preferred_gender_of_co_renters', pg.VARCHAR(225), nullable=False))
-    shared_space_expectations: str = Field(sa_column=Column('shared_space_expectation', pg.TEXT(525), nullable=True))
+    shared_space_expectations: str = Field(sa_column=Column('shared_space_expectation', pg.TEXT(), nullable=True))
     created_at: datetime = Field(sa_column=Column('created_at', pg.TIMESTAMP, default=datetime.utcnow))
     updated_at: datetime = Field(sa_column=Column('updated_at', pg.TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow))
 

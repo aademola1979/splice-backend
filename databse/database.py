@@ -27,8 +27,11 @@ async def init_db():
         from user.models.user_model import UserModel
         from address.models.zone_model import ZoneModel
         from address.models.local_government_model import LGAModel
-        from address.models.address_model import AddressModel
         from user.models.use_lifestyle_prefrences_model import UserLifestylePreferencesModel
+        from user.models.user_financial_information_model import UserFinancialInformationModel
+        from address.models.address_model import UserAddressModel
+        
+       
        
         await conn.run_sync(SQLModel.metadata.create_all)
 
