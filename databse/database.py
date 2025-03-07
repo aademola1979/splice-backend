@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlmodel.ext.asyncio.session import AsyncSession
+from typing import AsyncGenerator
 
 load_dotenv()
 
@@ -29,13 +30,16 @@ async def init_db():
         from address.models.local_government_model import LGAModel
         from user.models.use_lifestyle_prefrences_model import UserLifestylePreferencesModel
         from user.models.user_financial_information_model import UserFinancialInformationModel
-        from address.models.address_model import UserAddressModel
-        
-       
+        from address.models.user_address_model import UserAddressModel
+        from post.models.post_type_model import PostTypesModel
+        from post.models.post_model import PostModel
+        from post.models.post_image_model import PostImageUrlModel
+        from post.models.post_comment_model import PostCommentModel
+               
        
         await conn.run_sync(SQLModel.metadata.create_all)
 
-from typing import AsyncGenerator
+
 
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     Session = sessionmaker(

@@ -4,8 +4,9 @@ import sqlalchemy.dialects.postgresql as pg
 from uuid import UUID, uuid4
 from datetime import datetime
 
-class PostTypeModel(SQLModel):
-    __tablename__ = "post_comment"
+
+class UserAddressModel(SQLModel, table=True):
+    __tablename__ = "user_address"
     __table_args__ = {"extend_existing": True}
     
     id: UUID = Field(
@@ -18,14 +19,35 @@ class PostTypeModel(SQLModel):
             default=uuid4
         )
     )
-    post_type: str =Field(sa_column=Column('post_type', pg.TEXT(), nullable=False))
+    street: str = Field(sa_column=Column('street', pg.VARCHAR(225), nullable=False))
+    city: str = Field(sa_column=Column('city', pg.VARCHAR(225), nullable=False))
     created_at: datetime = Field(sa_column=Column('created_at', pg.TIMESTAMP, default=datetime.utcnow))
     updated_at: datetime = Field(sa_column=Column('updated_at', pg.TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow))
-
-    post_id: UUID = Field(
+    
+    # Foreign key column
+    state_id: UUID = Field(
         sa_column=Column(
             pg.UUID,
-            ForeignKey("post.id"),
+            ForeignKey("_state.id"),
             nullable=False
         )
     )
+
+     # Foreign key column
+    LGA_id: UUID = Field(
+        sa_column=Column(
+            pg.UUID,
+            ForeignKey("LGA.id"),
+            nullable=False
+        )
+    )
+
+      # Foreign key column
+    user_id: UUID = Field(
+        sa_column=Column(
+            pg.UUID,
+            ForeignKey("user.id"),
+            nullable=False
+        )
+    )
+

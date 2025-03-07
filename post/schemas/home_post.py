@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from datetime import date
-from posts.schemas.post import PostSchema
+from post.schemas.post import PostSchema
 
 
 
