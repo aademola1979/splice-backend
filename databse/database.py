@@ -28,14 +28,19 @@ async def init_db():
         from user.models.user_model import UserModel
         from address.models.zone_model import ZoneModel
         from address.models.local_government_model import LGAModel
-        from user.models.use_lifestyle_prefrences_model import UserLifestylePreferencesModel
+        from user.models.user_lifestyle_prefrences_model import UserLifestylePreferencesModel
         from user.models.user_financial_information_model import UserFinancialInformationModel
-        from address.models.user_address_model import UserAddressModel
+        from user.models.user_address_model import UserAddressModel
         from post.models.post_type_model import PostTypesModel
         from post.models.post_model import PostModel
         from post.models.post_image_model import PostImageUrlModel
         from post.models.post_comment_model import PostCommentModel
-               
+        from user.models.additional_preferences_model import UserAdditionalPreferencesModel
+        from user.models.living_preferences_model import UserLivingPreferencesModel
+        from user.models.social_and_personal_preferences_model import UserSocialPersonalPreferencesModel
+        from user.models.user_images_model import UserImageUrlModel
+        from user.models.verification_documents import UserVrificatioDocumentModel
+        from user.models.user_references_model import UserReferencesModel
        
         await conn.run_sync(SQLModel.metadata.create_all)
 
