@@ -1,9 +1,13 @@
 from sqlmodel.ext.asyncio.session import AsyncSession
 from address.models.state_model import StateModel
+from address.models.local_government_model import LGAModel
 from address.schemas.state_schema import StateSchema, CreateStateSchema, UpdateStateSchema, StateResponseSchema
+from address.schemas.local_government_area_schema import LocalGovernmentAreaSchema
 from sqlmodel import select, asc
+from address.models.zone_model import ZoneModel
+from uuid import UUID
 
-class StateService:
+class StateController:
 
     async def get_all_states(self, session:AsyncSession):
         statement = select(StateModel).order_by(asc(StateModel.name))
@@ -33,7 +37,7 @@ class StateService:
 
         return new_state
 
-    async def update_state(self, state_id:str, update_data: UpdateStateSchema, session:AsyncSession):
+    async def update_state(self, state_id:UUID, update_data: UpdateStateSchema, session:AsyncSession):
         state_to_update = await self.get_state_by_id(state_id, session)
 
         if state_to_update is not None:
@@ -59,3 +63,16 @@ class StateService:
 
         else:
             return None
+        
+    async def state_with_zone(self, session:AsyncSession, state_id:UUID):
+        statement = select(
+            (LGAModel.name).label("local_government_name"), 
+            (StateModel.name).label("state_name"),
+            (ZoneModel.name).label("zone_name"),
+            (LGAModel.id).label("local_government_id"),
+            ).where(StateModel.id == state_id).join(ZoneModel).where(StateModel.zone_id == ZoneModel.id).join(LGAModel).where(LGAModel.state_id == state_id)
+        result = await session.exec(statement=statement)
+        result = result.first()
+        print(f'My result: {result}')
+
+        return result if result is not None else None

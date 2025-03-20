@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 class LGAModel(SQLModel, table=True):
-    __tablename__ = "LGA"
+    __tablename__ = "local_government_area"
     __table_args__ = {"extend_existing": True}
     
     id: UUID = Field(

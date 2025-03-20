@@ -27,7 +27,6 @@ class UserReferencesModel(SQLModel, table=True):
     __tablename__ = "user_references"
     __table_args__ = {"extend_existing": True}
 
-
     id: UUID = Field(
         sa_column=Column(
             pg.UUID,

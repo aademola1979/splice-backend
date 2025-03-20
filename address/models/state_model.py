@@ -18,8 +18,8 @@ class StateModel(SQLModel, table=True):
             default=uuid4
         )
     )
-    code: str = Field(sa_column=Column('code', pg.VARCHAR(225), nullable=False))
-    name: str = Field(sa_column=Column('name', pg.VARCHAR(225), nullable=False))
+    code: str = Field(sa_column=Column('code', pg.VARCHAR(225), nullable=False, unique=True))
+    name: str = Field(sa_column=Column('name', pg.VARCHAR(225), nullable=False, unique=True))
     created_at: datetime = Field(sa_column=Column('created_at', pg.TIMESTAMP, default=datetime.utcnow))
     updated_at: datetime = Field(sa_column=Column('updated_at', pg.TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow))
     

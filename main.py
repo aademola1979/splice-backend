@@ -1,24 +1,26 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as starletteHHTPException
 from functools import lru_cache
 from contextlib import asynccontextmanager
 import config
-from databse.database import init_db
-from user.routers.routers import user_router
+from database.database import init_db
+from user.routers.user_routers import user_router
 from address.routers.zone_router import zone_router
 from address.routers.state_router import state_router
-
+from user.routers.special_router import spec_router
+from address.routers.lga_router import lga_router
+from live_message.services import chat_endpoint
 
 
 @asynccontextmanager
 async def lifespan(app:FastAPI):
-    print('App starting up')
+    print(f'{app} starting up')
     await init_db()
 
     yield
-    print('App shutting down')
+    print(f'{app} shutting down')
 
 
 
@@ -32,6 +34,8 @@ app = FastAPI(
 app.include_router( user_router)
 app.include_router(zone_router)
 app.include_router(state_router)
+app.include_router(spec_router)
+app.include_router(lga_router)
 
 
 
@@ -48,6 +52,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.websocket("/ws/chat")
+async def chat():
+    return chat_endpoint(websocket=WebSocket)
 
 @app.exception_handler(starletteHHTPException)
 async def http_exception_handler(request, exc):

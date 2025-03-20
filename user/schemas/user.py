@@ -45,6 +45,7 @@ class UpdateUserSchema(BaseModel):
 
 
 class UserResponseShcema(BaseModel):
+    id:UUID
     first_name: str = Field(..., min_length=3)
     middle_name: Union[str, None] 
     last_name: str = Field(..., min_length=3)

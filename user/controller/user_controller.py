@@ -2,9 +2,10 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from user.schemas.user import UserSchema, CreateUserShcema, UpdateUserSchema, UserResponseShcema
 from user.models.user_model import UserModel
 from sqlmodel import select, desc
+from database.database import async_session
+from sqlmodel import text
 
-
-class UserService:
+class UserController:
 
     async def get_all_user(self, session:AsyncSession):
         statement = select(UserModel).order_by(desc(UserModel.created_at))
@@ -63,3 +64,10 @@ class UserService:
 
         else:
             return None
+        
+    async def get_specific_user(self):
+        query = select(text('id FROM user'))
+        async with async_session() as session:
+            result = await session.execute(query)
+            user = result.all()
+            return user

@@ -3,7 +3,7 @@ from address.models.zone_model import ZoneModel
 from address.schemas.zone_schema import ZoneSchema, CreateZoneSchema, UpdateZoneSchema, ZoneResponseSchema
 from sqlmodel import select, asc
 
-class ZoneService:
+class ZoneController:
 
     async def get_all_zone(self, session:AsyncSession):
         statement = select(ZoneModel).order_by(asc(ZoneModel.name))
@@ -59,3 +59,4 @@ class ZoneService:
 
         else:
             return None
+        

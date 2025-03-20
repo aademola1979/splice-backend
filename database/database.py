@@ -15,10 +15,12 @@ SQLALCHEMY_DATABSE_URL = f"{os.environ['SPLICE_DATABASE_URL']}"
 async_engine = AsyncEngine(
     create_engine(
         url=SQLALCHEMY_DATABSE_URL, 
-        echo=True
+        echo=True,
+        pool_size=10,
+        max_overflow=20,
         )
     )
-sessionlocal = sessionmaker(autocommit=False, autoflush=False, bind=async_engine)
+
 async_session = sessionmaker(async_engine, class_=AsyncSession, expire_on_commit=False)
 Base = declarative_base()
 
@@ -41,6 +43,7 @@ async def init_db():
         from user.models.user_images_model import UserImageUrlModel
         from user.models.verification_documents import UserVrificatioDocumentModel
         from user.models.user_references_model import UserReferencesModel
+        
        
         await conn.run_sync(SQLModel.metadata.create_all)
 
@@ -53,3 +56,4 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
 
     async with Session() as session:
         yield session
+

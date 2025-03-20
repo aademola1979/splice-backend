@@ -10,9 +10,6 @@ class FurnishedState(str, Enum):
     semi_furnished = 'semi-furnished'
     unfurnished = 'unfurnished'
 
-
-
-
 class UserLivingPreferencesModel(SQLModel, table=True):
     __tablename__ = "user_living_preferences"
     __table_args__ = {"extend_existing": True}
