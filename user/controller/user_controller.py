@@ -1,9 +1,13 @@
 from sqlmodel.ext.asyncio.session import AsyncSession
 from user.schemas.user import UserSchema, CreateUserShcema, UpdateUserSchema, UserResponseShcema
-from user.models.user_model import UserModel
+from user.models.user_account_model import UserModel
+from user.models.user_address_model import UserAddressModel
+from address.models.local_government_model import LGAModel
+from address.models.state_model import StateModel
+from address.models.zone_model import ZoneModel
 from sqlmodel import select, desc
 from database.database import async_session
-from sqlmodel import text
+from sqlmodel import text,UUID
 
 class UserController:
 
@@ -71,3 +75,22 @@ class UserController:
             result = await session.execute(query)
             user = result.all()
             return user
+        
+    async def get_user_address(self, user_id: UUID, session: AsyncSession):
+        query = select(
+            (UserModel.id).label('id'),
+            (UserModel.first_name).label('first_name'), 
+            (UserModel.last_name).label('last_name'),
+            (UserModel.email).label('email'),
+            (UserAddressModel.street).label('street'), 
+            (UserAddressModel.city).label('city'), 
+            (LGAModel.name).label('lga_name'),
+            (StateModel.name).label('state_name'),
+            (ZoneModel.name).label('zone_name') 
+            ).where(
+                UserModel.id == user_id
+                ).select_from(UserAddressModel).join(LGAModel).join(StateModel).join(ZoneModel)
+        result = await session.exec(query)
+        result = result.first()
+
+        return result if result is not None else None

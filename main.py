@@ -35,9 +35,7 @@ app.include_router( user_router)
 app.include_router(zone_router)
 app.include_router(state_router)
 app.include_router(spec_router)
-app.include_router(lga_router)
-
-
+app.include_router(lga_router) 
 
 
 origins = [

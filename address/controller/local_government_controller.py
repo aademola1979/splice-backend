@@ -36,7 +36,17 @@ class LocalGovernmentController:
             (ZoneModel.name).label("zone_name"),
             (ZoneModel.code).label("zone_code"),
             (ZoneModel.id).label("zone_id"),
-            ).where(LGAModel.id == lga_id).join_from(StateModel, LGAModel).where(LGAModel.state_id == StateModel.id).join(ZoneModel).where(ZoneModel.id == StateModel.zone_id)
+            ).where(
+                LGAModel.id == lga_id
+                ).join_from(
+                    StateModel, LGAModel
+                    ).where(
+                        LGAModel.state_id == StateModel.id
+                        ).join(
+                            ZoneModel
+                            ).where(
+                                ZoneModel.id == StateModel.zone_id
+                                )
         result = await session.exec(statement=statement)
         result = result.first()
         return result if result is not None else None

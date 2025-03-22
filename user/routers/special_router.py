@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status, Depends
-from user.models.user_model import UserModel
+from user.models.user_account_model import UserModel
 from user.schemas.user import UserSchema, UpdateUserSchema, UserResponseShcema, CreateUserShcema
 from fastapi.exceptions import HTTPException
 from database.database import get_session

@@ -27,7 +27,7 @@ Base = declarative_base()
 
 async def init_db():
     async with async_engine.begin() as conn:
-        from user.models.user_model import UserModel
+        from user.models.user_account_model import UserModel
         from address.models.zone_model import ZoneModel
         from address.models.local_government_model import LGAModel
         from user.models.user_lifestyle_prefrences_model import UserLifestylePreferencesModel
@@ -41,8 +41,10 @@ async def init_db():
         from user.models.living_preferences_model import UserLivingPreferencesModel
         from user.models.social_and_personal_preferences_model import UserSocialPersonalPreferencesModel
         from user.models.user_images_model import UserImageUrlModel
-        from user.models.verification_documents import UserVrificatioDocumentModel
+        from user.models.user_verification_documents import UserVrificatioDocumentModel
         from user.models.user_references_model import UserReferencesModel
+        from user.models.student_user_record_model import StudentUserModel
+        from user.models.user_attributes_model import UserAttributesModel
         
        
         await conn.run_sync(SQLModel.metadata.create_all)

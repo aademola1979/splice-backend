@@ -30,10 +30,10 @@ class PostModel(SQLModel, table=True):
     updated_at: datetime = Field(sa_column=Column('updated_at', pg.TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow))
 
 
-    user_id: UUID = Field(
+    post_maker_id: UUID = Field(
         sa_column=Column(
             pg.UUID,
-            ForeignKey("user.id"),
+            ForeignKey("user_account.id"),
             nullable=False
         )
     )

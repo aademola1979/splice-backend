@@ -30,7 +30,7 @@ async def read_single_lga(lga_id:UUID, session:AsyncSession = Depends(get_sessio
 
 @lga_router.get("/detailed_lga/{lga_id}", response_model=Union[LocalGovernmentAreaWithStateSchema, None])
 async def lga_info(lga_id: UUID, session: AsyncSession = Depends(get_session)):
-    data = await controller.state_with_zone(session=session, lga_id=lga_id)
+    data = await controller.get_lga_with_detail_by_id(session=session, lga_id=lga_id)
     if data is None:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     return data

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, Depends
-from user.models.user_model import UserModel
-from user.schemas.user import UserSchema, UpdateUserSchema, UserResponseShcema, CreateUserShcema
+from user.models.user_account_model import UserModel
+from user.schemas.user import UserSchema, UpdateUserSchema, UserResponseShcema, CreateUserShcema, UserAddressDetails
 from fastapi.exceptions import HTTPException
 from database.database import get_session
 from typing import List
@@ -42,6 +42,14 @@ async def update_user(user_id:UUID, update_data:UpdateUserSchema, session: Async
 @user_router.delete("/{user_id}", response_model=None)
 async def delete_user(user_id:UUID, session: AsyncSession = Depends(get_session)):
     user = await controller.delete_user(user_id=user_id, session=session)
+
+
+@user_router.get("/address_details/{user_id}", response_model=UserAddressDetails)
+async def user_address_details(user_id:UUID, session: AsyncSession = Depends(get_session)):
+    user_address_info = await controller.get_user_address(user_id=user_id, session=session)
+    if user_address_info is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    return user_address_info
     
 
 

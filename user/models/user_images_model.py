@@ -23,10 +23,10 @@ class UserImageUrlModel(SQLModel, table=True):
     created_at: datetime = Field(sa_column=Column('created_at', pg.TIMESTAMP, default=datetime.utcnow))
     updated_at: datetime = Field(sa_column=Column('updated_at', pg.TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow))
     
-    user_id: UUID = Field(
+    user_account_id: UUID = Field(
         sa_column=Column(
             pg.UUID,
-            ForeignKey("user.id"),
+            ForeignKey("user_account.id"),
             nullable=False
         )
     )

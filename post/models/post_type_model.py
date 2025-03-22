@@ -18,8 +18,9 @@ class PostTypesModel(SQLModel, table=True):
             default=uuid4
         )
     )
-    post_type: str = Field(sa_column=Column('post_type', pg.VARCHAR(225), nullable=False))
-    code: str = Field(sa_column=Column('code', pg.VARCHAR(225), nullable=False))
+    post_type: str = Field(sa_column=Column('post_type', pg.VARCHAR(225), nullable=False, unique=True))
+    post_type_description: str = Field(sa_column=Column('description', pg.TEXT, nullable=True))
+    code: str = Field(sa_column=Column('code', pg.VARCHAR(225), nullable=False, unique=True))
     created_at: datetime = Field(sa_column=Column('created_at', pg.TIMESTAMP, default=datetime.utcnow))
     updated_at: datetime = Field(sa_column=Column('updated_at', pg.TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow))
 
