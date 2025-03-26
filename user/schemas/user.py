@@ -1,7 +1,7 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr
 from uuid import UUID
 from typing import Union
-from datetime import datetime
+from datetime import datetime, date
 
 
 class UserSchema(BaseModel):
@@ -11,7 +11,7 @@ class UserSchema(BaseModel):
     last_name: str
     email: EmailStr
     telephone: str
-    DOB: str
+    DOB: date
     created_at: datetime
     updated_at: datetime
 
@@ -22,10 +22,8 @@ class CreateUserShcema(BaseModel):
     last_name: str 
     email: EmailStr 
     telephone: str 
-    DOB: str
-    is_adult: bool = False
-    is_verified:bool = False
-    is_completed_registration: bool = False
+    DOB: date
+    
 
 
 class UpdateUserSchema(BaseModel):
@@ -34,11 +32,9 @@ class UpdateUserSchema(BaseModel):
     last_name: str 
     email: EmailStr 
     telephone: str 
-    DOB: str
+    DOB: date
     telephone: str
-    is_adult: bool = False
-    is_verified:bool = False
-    is_completed_registration: bool = False
+    
 
 
 class UserResponseShcema(BaseModel):
@@ -48,7 +44,7 @@ class UserResponseShcema(BaseModel):
     last_name: str
     email: EmailStr
     telephone: str 
-    DOB: str
+    DOB: date
     
 
 class UserAddressDetails(BaseModel):

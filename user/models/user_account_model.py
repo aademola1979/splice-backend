@@ -1,9 +1,8 @@
 from sqlmodel import SQLModel, Field
 from sqlalchemy import Column
 import sqlalchemy.dialects.postgresql as pg
-from uuid import UUID, uuid4
+from uuid import uuid4, UUID
 from datetime import datetime, date
-from enum import Enum
 
 class UserModel(SQLModel, table=True):
     __tablename__ = "user_account"

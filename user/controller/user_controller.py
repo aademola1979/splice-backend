@@ -11,7 +11,7 @@ from sqlmodel import text,UUID
 
 class UserController:
 
-    async def get_all_user(self, session:AsyncSession):
+    async def get_all_users(self, session:AsyncSession):
         statement = select(UserModel).order_by(desc(UserModel.created_at))
 
         result = await session.exec(statement=statement)

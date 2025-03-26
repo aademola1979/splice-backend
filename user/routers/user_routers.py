@@ -1,5 +1,4 @@
 from fastapi import APIRouter, status, Depends
-from user.models.user_account_model import UserModel
 from user.schemas.user import UserSchema, UpdateUserSchema, UserResponseShcema, CreateUserShcema, UserAddressDetails
 from fastapi.exceptions import HTTPException
 from database.database import get_session
@@ -17,7 +16,7 @@ controller = UserController()
 
 @user_router.get("/", response_model=List[UserSchema])
 async def get_all_users(session: AsyncSession = Depends(get_session)):
-    users = await controller.get_all_user(session=session)
+    users = await controller.get_all_users(session=session)
     return users 
 
 @user_router.post("/", status_code=status.HTTP_201_CREATED, response_model=None)
