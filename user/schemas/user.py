@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from uuid import UUID
-from typing import Union
+from typing import Union, Optional
 from datetime import datetime, date
 
 
@@ -9,6 +9,7 @@ class UserSchema(BaseModel):
     first_name: str
     middle_name: Union[str, None]
     last_name: str
+    #hashed_password: Union[str, None]
     email: EmailStr
     telephone: str
     DOB: date
@@ -50,7 +51,7 @@ class UserResponseShcema(BaseModel):
 class UserAddressDetails(BaseModel):
     id:UUID
     first_name: str
-    middle_name: Union[str, None] 
+    middle_name: Union[str, None] = None
     last_name: str
     email: EmailStr 
     street: str

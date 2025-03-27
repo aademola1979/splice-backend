@@ -22,7 +22,7 @@ class UserModel(SQLModel, table=True):
     middle_name: str = Field(sa_column=Column('middle_name', pg.VARCHAR(225), nullable=True))
     last_name: str = Field(sa_column=Column('last_name', pg.VARCHAR(225), nullable=False))
     email: str = Field(sa_column=Column('email', pg.VARCHAR(225), nullable=False, unique=True))
-    hashed_password: str = Field(sa_column=Column('hashed_password', pg.VARCHAR(225), nullable=False))
+    #hashed_password: str = Field(sa_column=Column('hashed_password', pg.VARCHAR(225), nullable=False))
     telephone: str = Field(sa_column=Column('telephone', pg.VARCHAR(225), nullable=False, unique=True))
     DOB: date = Field(sa_column=Column('DOB', pg.DATE, nullable=False))
     created_at: datetime = Field(sa_column=Column('created_at', pg.TIMESTAMP, default=datetime.utcnow))

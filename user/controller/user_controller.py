@@ -5,7 +5,7 @@ from user.models.user_address_model import UserAddressModel
 from address.models.local_government_model import LGAModel
 from address.models.state_model import StateModel
 from address.models.zone_model import ZoneModel
-from sqlmodel import select, desc
+from sqlmodel import select, desc, or_
 from database.database import async_session
 from sqlmodel import text,UUID
 
@@ -76,10 +76,11 @@ class UserController:
             user = result.all()
             return user
         
-    async def get_user_address(self, user_id: UUID, session: AsyncSession):
+    async def get_user_address_by_id(self, user_id: UUID, session: AsyncSession):
         query = select(
             (UserModel.id).label('id'),
             (UserModel.first_name).label('first_name'), 
+            (UserModel.middle_name).label('middle_name'), 
             (UserModel.last_name).label('last_name'),
             (UserModel.email).label('email'),
             (UserAddressModel.street).label('street'), 
@@ -87,10 +88,50 @@ class UserController:
             (LGAModel.name).label('lga_name'),
             (StateModel.name).label('state_name'),
             (ZoneModel.name).label('zone_name') 
-            ).where(
-                UserModel.id == user_id
-                ).select_from(UserAddressModel).join(LGAModel).join(StateModel).join(ZoneModel)
+            ).join_from(UserModel, UserAddressModel).join_from(UserAddressModel, LGAModel).join_from(LGAModel, StateModel).join_from(StateModel, ZoneModel).where(UserModel.id == user_id)
         result = await session.exec(query)
         result = result.first()
 
         return result if result is not None else None
+    
+    async def get_user_address_all(self, session: AsyncSession):
+            query = select(
+                (UserModel.id).label('id'),
+                (UserModel.first_name).label('first_name'), 
+                (UserModel.middle_name).label('middle_name'), 
+                (UserModel.last_name).label('last_name'),
+                (UserModel.email).label('email'),
+                (UserAddressModel.street).label('street'), 
+                (UserAddressModel.city).label('city'), 
+                (LGAModel.name).label('lga_name'),
+                (StateModel.name).label('state_name'),
+                (ZoneModel.name).label('zone_name') 
+                ).join_from(UserModel, UserAddressModel).join_from(UserAddressModel, LGAModel).join_from(LGAModel, StateModel).join_from(StateModel, ZoneModel).order_by(UserModel.first_name)
+            result = await session.exec(query)
+            result = result.all()
+
+            return result if result is not None else None
+    
+    async def get_user_address_search(self, search_string:str, session: AsyncSession):
+            query = select(
+                (UserModel.id).label('id'),
+                (UserModel.first_name).label('first_name'), 
+                (UserModel.middle_name).label('middle_name'), 
+                (UserModel.last_name).label('last_name'),
+                (UserModel.email).label('email'),
+                (UserAddressModel.street).label('street'), 
+                (UserAddressModel.city).label('city'), 
+                (LGAModel.name).label('lga_name'),
+                (StateModel.name).label('state_name'),
+                (ZoneModel.name).label('zone_name') 
+                ).join_from(UserModel, UserAddressModel).join_from(UserAddressModel, LGAModel).join_from(LGAModel, StateModel).join_from(StateModel, ZoneModel).where(
+                     or_(
+                          text(f"user_account.first_name ILIKE '%{search_string}%'"),
+                          text(f"user_account.last_name ILIKE '%{search_string}%'"),
+                          text(f"user_account.middle_name ILIKE '%{search_string}%'")
+
+                          )).order_by(UserModel.first_name)
+            result = await session.exec(query)
+            result = result.all()
+
+            return result if result is not None else None
