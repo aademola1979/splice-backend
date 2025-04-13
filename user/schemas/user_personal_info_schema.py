@@ -1,19 +1,20 @@
-from pydantic import BaseModel, validator, EmailStr
-from datetime import date
+from pydantic import BaseModel, EmailStr
+from datetime import datetime
+from typing import Union
 
 class UserPersonalInfoSchema(BaseModel):
     id: str
     user_id: str
     email: EmailStr
     first_name: str
+    middle_name: Union[str, None] = None
     last_name: str
-    mobile_phone: str
-    password_hash: str
-    is_verified: bool = False
-    created_at: date
-    updated_at: date
-    deleted_at: date
-    user_work_status: str 
+    telephone: str
+    hashed_password: Union[str, None] = None
+    created_at: datetime
+    updated_at: datetime
+
+    
 
     
 

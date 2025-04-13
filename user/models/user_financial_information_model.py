@@ -20,7 +20,7 @@ class EmploymentStatus(str, Enum):
     business_owner = 'business owner'
     civil_servant = 'civil servant'
     unemployed = 'unemployed'
-    other = 'other'
+    other = 'others'
 
 
 class UserFinancialInformationModel(SQLModel, table=True):

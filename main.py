@@ -1,11 +1,20 @@
-from fastapi import FastAPI, WebSocket
+import os
+from dotenv import load_dotenv
+from fastapi import FastAPI, WebSocket, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
+#from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+#from jose import jwt, JWTError
+#from passlib.context import CryptContext
 from starlette.exceptions import HTTPException as starletteHHTPException
 from functools import lru_cache
 from contextlib import asynccontextmanager
 import config
+from typing import Annotated
 from database.database import init_db
+from lib.next_auth.nextauth_jwt import NextAuthJWT
+
+#ROUTES
 from user.routers.user_routers import user_router
 from address.routers.zone_router import zone_router
 from address.routers.state_router import state_router
@@ -13,6 +22,12 @@ from user.routers.special_router import spec_router
 from address.routers.lga_router import lga_router
 from live_message.services import chat_endpoint
 
+load_dotenv()
+
+auth_secret = os.environ.get("NEXT_AUTH_SECRET")
+JWT = NextAuthJWT(
+    secret= auth_secret
+)
 
 @asynccontextmanager
 async def lifespan(app:FastAPI):
@@ -37,10 +52,9 @@ app.include_router(state_router)
 app.include_router(spec_router)
 app.include_router(lga_router) 
 
-
+client_url = os.environ.get("DEV_CLIENT_URL")
 origins = [
-    "https://splice-seven.vercel.app",
-    "http://localhost:3000",
+    f"{client_url}",
 ]
 
 app.add_middleware(
@@ -67,6 +81,6 @@ def get_settings():
 
 
 @app.get("/")
-async def greet():
+async def greet(jwt:Annotated[dict, Depends(JWT)]):
     return {"Greet": f"Hi"}
 

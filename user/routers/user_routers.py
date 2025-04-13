@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status, Depends
-from user.schemas.user import UserSchema, UpdateUserSchema, UserResponseShcema, CreateUserShcema, UserAddressDetails
+from user.schemas.user import UserSchema, UpdateUserSchema, UserResponseShcema, CreateUserShcema, UserPersonalInfo
 from fastapi.exceptions import HTTPException
 from database.database import get_session
 from typing import List, Union
@@ -43,24 +43,24 @@ async def delete_user(user_id:UUID, session: AsyncSession = Depends(get_session)
     user = await controller.delete_user(user_id=user_id, session=session)
 
 
-@user_router.get("/address_details/", response_model=List[UserAddressDetails])
+@user_router.get("/personal_info_all/detials", response_model=List[UserPersonalInfo])
 async def user_address_details_all(session: AsyncSession = Depends(get_session)):
-    user_address_info = await controller.get_user_address_all(session=session)
+    user_address_info = await controller.get_user_personal_info_all(session=session)
     if user_address_info is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user_address_info
 
 
-@user_router.get("/address_details/{user_id}", response_model=UserAddressDetails)
+@user_router.get("/personal_info/{user_id}", response_model=UserPersonalInfo)
 async def user_address_details_by_id(user_id:UUID, session: AsyncSession = Depends(get_session)):
-    user_address_info = await controller.get_user_address_by_id(user_id=user_id, session=session)
+    user_address_info = await controller.get_user_personal_info_by_id(user_id=user_id, session=session)
     if user_address_info is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user_address_info
 
-@user_router.get("/search_details/{search_string}", response_model=List[UserAddressDetails])
+@user_router.get("/search_user_info/{search_string}", response_model=List[UserPersonalInfo])
 async def user_address_search_details(search_string:str, session: AsyncSession = Depends(get_session)):
-    user_address_info = await controller.get_user_address_search(search_string=search_string, session=session)
+    user_address_info = await controller.get_user_personal_info_search(search_string=search_string, session=session)
     if user_address_info is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user_address_info

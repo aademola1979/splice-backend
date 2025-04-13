@@ -15,3 +15,5 @@ alembic
 psycopg
 pydantic-settings
 websocket
+cryptography
+python-jose[cryptography]

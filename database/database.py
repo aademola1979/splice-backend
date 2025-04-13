@@ -32,7 +32,6 @@ async def init_db():
         from address.models.local_government_model import LGAModel
         from user.models.user_lifestyle_prefrences_model import UserLifestylePreferencesModel
         from user.models.user_financial_information_model import UserFinancialInformationModel
-        from user.models.user_address_model import UserAddressModel
         from post.models.post_type_model import PostTypesModel
         from post.models.post_model import PostModel
         from post.models.post_image_model import PostImageUrlModel
@@ -45,6 +44,7 @@ async def init_db():
         from user.models.user_references_model import UserReferencesModel
         from user.models.student_user_record_model import StudentUserModel
         from user.models.user_attributes_model import UserAttributesModel
+        from user.models.user_personal_info_model import UserPersonalInfoModel
         
        
         await conn.run_sync(SQLModel.metadata.create_all)
